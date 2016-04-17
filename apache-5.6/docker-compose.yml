@@ -1,5 +1,5 @@
 web:
-    image: lcsbaroni/php-alpine-apache:5.6
+    image: lcsbaroni/alpine:apache-5.6
     ports:
         - "80"
         - "443"
