@@ -73,7 +73,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN mkdir -p /run/apache2
 
 # Set Workdir
-WORKDIR /app
+WORKDIR /var/www/localhost/htdocs
 
 # Expose ports
 EXPOSE 80 443
