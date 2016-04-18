@@ -1,0 +1,14 @@
+#! /bin/sh
+
+exec 2>&1
+set -e
+
+umask 022
+
+PROGARGS="--nodaemonize --fpm-config /etc/php/php-fpm.conf"
+PROGHOME="/"
+PROGNAME="/usr/bin/php-fpm"
+
+export HOME=/root
+
+cd  "${PROGHOME}" &&  exec $PROGNAME $PROGARGS

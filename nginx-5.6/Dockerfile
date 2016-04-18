@@ -1,7 +1,7 @@
 # The container includes:
 #
 # - Git
-# - Apache2
+# - NGINX
 # - PHP Version 5.6
 # - Composer
 # - MySQL Client
@@ -17,7 +17,8 @@ ENV MAX_UPLOAD 50M
 ENV PHP_MAX_FILE_UPLOAD 200
 ENV PHP_MAX_POST 100M
 
-ADD ./conf/apache.runit /etc/service/apache/run
+ADD ./conf/nginx.runit /etc/service/nginx/run
+ADD ./conf/php.runit /etc/service/php/run
 
 RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk update && \
@@ -26,15 +27,15 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
     cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
     echo "${TIMEZONE}" > /etc/timezone && \
     apk add --update \
-        php-apache2 \
+        nginx \
         libxml2 \
         pwgen \
         runit@testing \
         curl \
         git \
         openssh-client \
-        bash \
         php@testing \
+        php-fpm@testing  \
         php-dev@testing \
         php-iconv@testing \
         php-ctype@testing \
@@ -47,8 +48,7 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php-json@testing \
         php-gd@testing \
         php-pear@testing \
-        php-openssl@testing \
-        php-soap@testing
+        php-openssl@testing
 
 RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/php.ini && \
@@ -57,22 +57,28 @@ RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|" /etc/php/php.ini && \
     sed -i "s|post_max_size =.*|max_file_uploads = ${PHP_MAX_POST}|" /etc/php/php.ini && \
     sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/php.ini && \
-    sed -i "s|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|" /etc/apache2/httpd.conf && \
-    sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/httpd.conf && \
     apk del tzdata && \
     rm -fr /tmp/*.apk && \
     rm -rf /var/cache/apk/* && \
-
+    mkdir /etc/nginx/sites-enabled && \
+    adduser -u 1000 docker -D -s /bin/ash && \
+    chown -R docker:docker /home/docker && \
     mkdir -p /etc/service && \
-    chmod a+x /etc/service/apache/run && \
+    chmod a+x /etc/service/nginx/run && \
+    chmod a+x /etc/service/php/run && \
+    mkdir /www && \
+    chown -R docker:docker /www && \
     echo "Success"
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN mkdir -p /run/apache2
+ADD ./conf/nginx.conf /etc/nginx/nginx.conf
+ADD ./conf/default.conf /etc/nginx/sites-enabled/default
+ADD ./conf/php-fpm.conf /etc/php/php-fpm.conf
+ADD ./conf/www.conf /etc/php/php-fpm.d/www.conf
 
 # Set Workdir
-WORKDIR /var/www/localhost/htdocs
+WORKDIR /www
 
 # Expose ports
 EXPOSE 80 443

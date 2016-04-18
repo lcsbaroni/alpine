@@ -1,6 +1,7 @@
 # Supported tags and respective `Dockerfile` links
 
 -   [`apache-5.6` (*lcsbaroni/alpine/apache-5.6/Dockerfile*)](https://github.com/lcsbaroni/alpine/blob/master/apache-5.6/Dockerfile)
+-   [`nginx-5.6` (*lcsbaroni/alpine/nginx-5.6/Dockerfile*)](https://github.com/lcsbaroni/alpine/blob/master/nginx-5.6/Dockerfile)
 
 # docker-alpine
 
