@@ -49,7 +49,8 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php-gd@testing \
         php-pear@testing \
         php-openssl@testing \
-        php-xdebug@testing
+        php-xdebug@testing \
+        php-xml@testing
 
 RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/php.ini && \
