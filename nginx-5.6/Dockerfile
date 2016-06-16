@@ -37,6 +37,7 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php@testing \
         php-fpm@testing  \
         php-dev@testing \
+        php-dom@testing \
         php-iconv@testing \
         php-ctype@testing \
         php-cli@testing \
@@ -47,8 +48,9 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php-curl@testing \
         php-json@testing \
         php-gd@testing \
-        php-pear@testing \
         php-openssl@testing \
+        php-pdo@testing \
+        php-pdo_mysql@testing \
         php-xdebug@testing \
         php-xml@testing
 
