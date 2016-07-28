@@ -39,6 +39,7 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php-iconv@testing \
         php-ctype@testing \
         php-cli@testing \
+        php-dom@testing \
         php-phar@testing \
         php-mcrypt@testing \
         php-mysql@testing \
@@ -48,7 +49,8 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php-gd@testing \
         php-pear@testing \
         php-openssl@testing \
-        php-soap@testing
+        php-soap@testing \
+        php-xml@testing
 
 RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/php.ini && \
