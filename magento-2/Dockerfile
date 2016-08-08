@@ -1,5 +1,5 @@
 # Use Alpine Linux
-FROM alpine:3.3
+FROM alpine:3.4
 
 # Timezone
 ENV TIMEZONE America/Sao_Paulo
@@ -25,6 +25,10 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         openssh-client \
         php7@testing \
         php7-dev@testing \
+        php7-curl@testing \
+        php7-common@testing \
+        php7-intl@testing \
+        php7-gd@testing \
         php7-opcache@testing \
         php7-openssl@testing \
         php7-phar@testing \
@@ -33,7 +37,6 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php7-mysqli@testing \
         php7-json@testing \
         php7-iconv@testing \
-        php7-common@testing \
         php7-session@testing \
         php7-ctype@testing \
         php7-dom@testing \
@@ -41,7 +44,10 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php7-redis@testing \
         php7-bcmath@testing \
         php7-amqp@testing \
-        php7-xdebug@testing && \
+        php7-soap@testing \
+        php7-xsl@testing \
+        php7-xdebug@testing \
+        php7-zip@testing && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
     sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|" /etc/php7/php.ini && \
     sed -i "s|upload_max_filesize =.*|upload_max_filesize = ${MAX_UPLOAD}|" /etc/php7/php.ini && \
