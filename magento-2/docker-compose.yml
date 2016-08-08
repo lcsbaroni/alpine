@@ -1,0 +1,7 @@
+web:
+    image: lcsbaroni/alpine:nginx-5.6
+    ports:
+        - "80"
+        - "443"
+    volumes:
+        - ./site:/www
