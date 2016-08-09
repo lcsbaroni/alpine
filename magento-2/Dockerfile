@@ -3,7 +3,8 @@ FROM alpine:3.4
 
 # Timezone
 ENV TIMEZONE America/Sao_Paulo
-ENV PHP_MEMORY_LIMIT 512M
+ENV PHP_MEMORY_LIMIT 1024M
+ENV PHP_MAX_EXECUTION_TIME 300
 ENV MAX_UPLOAD 50M
 ENV PHP_MAX_FILE_UPLOAD 200
 ENV PHP_MAX_POST 100M
@@ -40,6 +41,8 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php7-session@testing \
         php7-ctype@testing \
         php7-dom@testing \
+        php7-pdo@testing \
+        php7-pdo_mysql@testing \
         php7-fpm@testing  \
         php7-redis@testing \
         php7-bcmath@testing \
@@ -50,6 +53,7 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php7-zip@testing && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php7/php.ini && \
     sed -i "s|memory_limit =.*|memory_limit = ${PHP_MEMORY_LIMIT}|" /etc/php7/php.ini && \
+    sed -i "s|max_execution_time =.*|max_execution_time = ${PHP_MAX_EXECUTION_TIME}|" /etc/php7/php.ini && \
     sed -i "s|upload_max_filesize =.*|upload_max_filesize = ${MAX_UPLOAD}|" /etc/php7/php.ini && \
     sed -i "s|max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|" /etc/php7/php.ini && \
     sed -i "s|post_max_size =.*|max_file_uploads = ${PHP_MAX_POST}|" /etc/php7/php.ini && \
