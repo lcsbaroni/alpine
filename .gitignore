@@ -1,0 +1,12 @@
+/.buildpath
+._.DS_Store
+.thumbs
+/.cache
+/.metadata
+/.project
+/.settings
+atlassian*
+/nbproject
+/.idea
+/.gitattributes
+*.sublime-*

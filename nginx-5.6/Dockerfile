@@ -20,7 +20,8 @@ ENV PHP_MAX_POST 100M
 ADD ./conf/nginx.runit /etc/service/nginx/run
 ADD ./conf/php.runit /etc/service/php/run
 
-RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+RUN echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk update && \
     apk upgrade && \
     apk add --update tzdata && \
@@ -30,29 +31,29 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         nginx \
         libxml2 \
         pwgen \
-        runit@testing \
+        runit@community \
         curl \
         git \
         openssh-client \
-        php@testing \
-        php-fpm@testing  \
-        php-dev@testing \
-        php-dom@testing \
-        php-iconv@testing \
-        php-ctype@testing \
-        php-cli@testing \
-        php-phar@testing \
-        php-mcrypt@testing \
-        php-mysql@testing \
-        php-mysqli@testing \
-        php-curl@testing \
-        php-json@testing \
-        php-gd@testing \
-        php-openssl@testing \
-        php-pdo@testing \
-        php-pdo_mysql@testing \
-        php-xdebug@testing \
-        php-xml@testing
+        php@community \
+        php-fpm@community  \
+        php-dev@community \
+        php-dom@community \
+        php-iconv@community \
+        php-ctype@community \
+        php-cli@community \
+        php-phar@community \
+        php-mcrypt@community \
+        php-mysql@community \
+        php-mysqli@community \
+        php-curl@community \
+        php-json@community \
+        php-gd@community \
+        php-openssl@community \
+        php-pdo@community \
+        php-pdo_mysql@community \
+        php-zlib \
+        php-xml@community
 
 RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/php.ini && \
@@ -61,14 +62,6 @@ RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|max_file_uploads =.*|max_file_uploads = ${PHP_MAX_FILE_UPLOAD}|" /etc/php/php.ini && \
     sed -i "s|post_max_size =.*|max_file_uploads = ${PHP_MAX_POST}|" /etc/php/php.ini && \
     sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/php.ini && \
-    rm /etc/php/conf.d/xdebug.ini && \
-    echo "zend_extension=/usr/lib/php/modules/xdebug.so" >> /etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_enable=1" >> /etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_handler=dbgp" >> /etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_port=9000" >> /etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_autostart=1" >> /etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_connect_back=1" >> /etc/php/conf.d/xdebug.ini && \
-    echo "xdebug.remote_log=/tmp/xdebug.log" >> /etc/php/conf.d/xdebug.ini && \
     apk del tzdata && \
     rm -fr /tmp/*.apk && \
     rm -rf /var/cache/apk/* && \

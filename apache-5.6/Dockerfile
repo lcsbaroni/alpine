@@ -19,7 +19,7 @@ ENV PHP_MAX_POST 100M
 
 ADD ./conf/apache.runit /etc/service/apache/run
 
-RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+RUN echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && \
     apk upgrade && \
     apk add --update tzdata && \
@@ -29,28 +29,29 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
         php-apache2 \
         libxml2 \
         pwgen \
-        runit@testing \
+        runit@community \
         curl \
         git \
         openssh-client \
         bash \
-        php@testing \
-        php-dev@testing \
-        php-iconv@testing \
-        php-ctype@testing \
-        php-cli@testing \
-        php-dom@testing \
-        php-phar@testing \
-        php-mcrypt@testing \
-        php-mysql@testing \
-        php-mysqli@testing \
-        php-curl@testing \
-        php-json@testing \
-        php-gd@testing \
-        php-pear@testing \
-        php-openssl@testing \
-        php-soap@testing \
-        php-xml@testing
+        php@community \
+        php-dev@community \
+        php-iconv@community \
+        php-ctype@community \
+        php-cli@community \
+        php-gettext@community \
+        php-dom@community \
+        php-phar@community \
+        php-mcrypt@community \
+        php-mysql@community \
+        php-mysqli@community \
+        php-curl@community \
+        php-json@community \
+        php-gd@community \
+        php-pear@community \
+        php-openssl@community \
+        php-soap@community \
+        php-xml@community
 
 RUN sed -i "s|short_open_tag = .*|short_open_tag = On|" /etc/php/php.ini && \
     sed -i "s|;date.timezone =.*|date.timezone = ${TIMEZONE}|" /etc/php/php.ini && \
